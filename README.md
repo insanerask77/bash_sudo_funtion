@@ -2,7 +2,7 @@
 A simple function to add sudo to the beginning of the command by double pressing ESC
 
 
-## Install in Linux Generin
+## Install in Linux Generic
 
 ```bash
 wget https://github.com/insanerask77/bash_sudo_funtion/blob/main/bash_sudo_funtion.sh
