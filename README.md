@@ -14,3 +14,14 @@ rm ./bash_sudo_funtion.sh
 ## How to use
 
  Press key "ESC" two times to add sudo in the beginning of the command.
+
+ ## How to unistall
+
+ Remove the lane created in ~/.bashrc
+
+ ```bash
+nano ~/.bashrc
+delete this lane "bind -x '"\e\e": READLINE_LINE="sudo $READLINE_LINE"; READLINE_POINT=$((READLINE_POINT + 5))'"
+save file
+source ~/.bashrc
+```
