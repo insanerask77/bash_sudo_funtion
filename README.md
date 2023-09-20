@@ -1,6 +1,17 @@
 # bash_sudo_funtion
 A simple function to add sudo to the beginning of the command by double pressing ESC
 
+## Manual Installation
+```bash
+# Edit ~/.bashrc
+nano ~/.bashrc
+# Copy and Paste this lane into ~/.bashrc
+bind -x '"\e\e": READLINE_LINE="sudo $READLINE_LINE"; READLINE_POINT=$((READLINE_POINT + 5))'
+# Save file
+# Execute this command
+source ~/.bashrc
+
+```
 
 ## Install in Linux Generic
 
@@ -20,8 +31,11 @@ rm ./bash_sudo_funtion.sh
  Remove the lane created in ~/.bashrc
 
  ```bash
+# Edit ~/.bashrc
 nano ~/.bashrc
-delete this lane "bind -x '"\e\e": READLINE_LINE="sudo $READLINE_LINE"; READLINE_POINT=$((READLINE_POINT + 5))'"
-save file
+# Delete this lane
+bind -x '"\e\e": READLINE_LINE="sudo $READLINE_LINE"; READLINE_POINT=$((READLINE_POINT + 5))'
+# Save file
+# Execute this command
 source ~/.bashrc
 ```
