@@ -18,6 +18,7 @@ source ~/.bashrc
 ```bash
 wget -qN https://github.com/insanerask77/bash_sudo_funtion/blob/main/bash_sudo_funtion.sh
 chmod +x ./bash_sudo_funtion.sh
+./bash_sudo_funtion.sh
 source ~/.bashrc
 rm ./bash_sudo_funtion.sh
 ```
