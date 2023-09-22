@@ -16,7 +16,7 @@ source ~/.bashrc
 ## Install in Linux Generic
 
 ```bash
-wget -qN https://github.com/insanerask77/bash_sudo_funtion/blob/main/bash_sudo_funtion.sh
+wget -qN https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/bash_sudo_funtion.sh
 chmod +x ./bash_sudo_funtion.sh
 ./bash_sudo_funtion.sh
 source ~/.bashrc
