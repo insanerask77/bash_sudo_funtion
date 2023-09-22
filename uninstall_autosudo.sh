@@ -7,6 +7,8 @@ if ! grep -qF "$command_to_insert" ~/.bashrc; then
 else
     echo "AutoSudo Uninstalled"
     line=$(cat ~/.bashrc | grep bind)
-    cat ~/.bashrc | grep -vF "$line" > ~/.bashrc
+    cat ~/.bashrc | grep -vF "$line" > ~/.bashrc_un
+    mv ~/.bashrc ~/.bashrc_bkp
+    mv ~/.bashrc_un ~/.bashrc
 
 fi
