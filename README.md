@@ -28,7 +28,7 @@ rm ./bash_sudo_funtion.sh
  Press key "ESC" two times to add sudo in the beginning of the command.
 
 ## How to unistall :x:
-# Auto Unistall
+### Auto Unistall
 ```bash
 wget -qN https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/uninstall_autosudo.sh
 chmod +x ./uninstall_autosudo.sh
