@@ -1,7 +1,8 @@
 # bash_sudo_funtion (AutoSudo):smiling_imp:
 A simple function to add sudo to the beginning of the command by double pressing ESC
 
-## This installation make a original backup of your `~/.bashrc` You can find it in `~/.bashrc_original`
+#### This installation make a original backup of your `~/.bashrc` 
+#### You can find it in `~/.bashrc_original`
 ## Manual Installation :writing_hand:
 ```bash
 # Edit ~/.bashrc
