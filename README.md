@@ -1,93 +1,167 @@
-# Bash AutoSudo :smiling_imp:
+# AutoSudo
 
-A simple bash function to automatically prepend `sudo` to your current command line by pressing the `Esc` key twice.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Bash](https://img.shields.io/badge/bash-3.0%2B-blue.svg)](https://www.gnu.org/software/bash/)
+[![Shell: bash only](https://img.shields.io/badge/shell-bash%20only-lightgrey.svg)](#requirements)
 
-This script modifies your `~/.bashrc` file to add this functionality.
+Press **Esc Esc** to instantly prepend `sudo` to your current command line — no retyping, no copy-paste.
 
-**Important:** These scripts are designed for `bash`. Ensure you are running them in a bash environment.
+```
+$ apt update        ← you type this
+$ sudo apt update   ← after pressing Esc Esc
+```
+
+---
+
+## Requirements
+
+- **bash 3.0+** (the script does not support `sh`, `zsh`, `fish`, or other shells)
+- A Unix-like system (Linux, macOS, WSL)
+
+---
 
 ## Installation
 
-The installation script will:
-- Check if you're running it with `bash`.
-- Create `~/.bashrc` if it doesn't exist.
-- Back up your existing `~/.bashrc` to `~/.bashrc.autosudo.bak` before making changes.
-- Add the autosudo function, clearly marked, to your `~/.bashrc`.
+The installer will:
 
-Choose one of the methods below:
+1. Verify you are running **bash**.
+2. Create `~/.bashrc` if it does not exist.
+3. Back up your existing `~/.bashrc` to `~/.bashrc.autosudo.bak`.
+4. Append the AutoSudo block, clearly delimited by markers, to `~/.bashrc`.
 
-**Method 1: One-liner with `curl`**
-
-Execute the following command in your bash terminal:
+### One-liner (curl)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/bash_sudo_function.sh | bash
+curl -sSL https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/install.sh | bash
 ```
-*(Note: Please verify the URL if the repository location changes.)*
 
-**Method 2: `wget`**
+### One-liner (wget)
 
 ```bash
-wget https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/bash_sudo_function.sh
-chmod +x bash_sudo_function.sh
-bash ./bash_sudo_function.sh
-# rm ./bash_sudo_function.sh # Optional: remove the script after installation
+wget -qO- https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/install.sh | bash
 ```
 
-After installation, you **must** source your `~/.bashrc` file or open a new terminal session for the changes to take effect:
+### Manual
+
+```bash
+git clone https://github.com/insanerask77/bash_sudo_funtion.git
+cd bash_sudo_funtion
+bash install.sh
+```
+
+### Activate
+
+After installation, reload your shell configuration:
+
 ```bash
 source ~/.bashrc
 ```
 
-## Usage :book:
+Or simply open a new terminal.
 
-Once installed and your `~/.bashrc` is sourced:
+---
+
+## Usage
+
 1. Type any command in your terminal.
-2. Press the `Esc` key twice.
-3. `sudo ` will be prepended to your command line, and your cursor will be positioned after `sudo `.
+2. Press **Esc** twice.
+3. `sudo ` is prepended and your cursor is repositioned after it.
 
-Example:
-If you type `apt update` and then press `Esc` `Esc`, your command line will change to `sudo apt update`.
+| Before | After Esc Esc |
+|--------|---------------|
+| `apt update` | `sudo apt update` |
+| `systemctl restart nginx` | `sudo systemctl restart nginx` |
+| `nano /etc/hosts` | `sudo nano /etc/hosts` |
+
+> If the command already starts with `sudo`, pressing Esc Esc has no effect.
+
+---
+
+## How it works
+
+The installer appends the following block to `~/.bashrc`:
+
+```bash
+# BEGIN AUTOSUDO - DO NOT EDIT THIS BLOCK
+_autosudo() {
+    if [[ "$READLINE_LINE" != sudo\ * ]]; then
+        READLINE_LINE="sudo $READLINE_LINE"
+        READLINE_POINT=$(( READLINE_POINT + 5 ))
+    fi
+}
+bind -x '"\e\e": _autosudo'
+# END AUTOSUDO - DO NOT EDIT THIS BLOCK
+```
+
+`bind -x` maps the double-Escape sequence (`\e\e`) to the `_autosudo` shell function. The function modifies `READLINE_LINE` (the current input buffer) and advances `READLINE_POINT` (the cursor) by 5 characters — the length of `"sudo "`.
+
+---
 
 ## Uninstallation
 
-The uninstallation script will:
-- Check if you're running it with `bash`.
-- Attempt to safely remove the autosudo block from your `~/.bashrc`.
-- Inform you if a backup (`~/.bashrc.autosudo.bak`) exists.
+The uninstaller removes the AutoSudo block from `~/.bashrc` using the delimiters written at install time.
 
-Choose one of the methods below:
+### One-liner (curl)
 
-**Method 1: One-liner with `curl`**
 ```bash
-curl -sSL https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/uninstall_autosudo.sh | bash
-```
-*(Note: Please verify the URL if the repository location changes.)*
-
-**Method 2: `wget`**
-```bash
-wget https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/uninstall_autosudo.sh
-chmod +x uninstall_autosudo.sh
-bash ./uninstall_autosudo.sh
-# rm ./uninstall_autosudo.sh # Optional: remove the script after uninstallation
+curl -sSL https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/uninstall.sh | bash
 ```
 
-After uninstallation, you **must** source your `~/.bashrc` file or open a new terminal session for the changes to take effect:
+### One-liner (wget)
+
+```bash
+wget -qO- https://raw.githubusercontent.com/insanerask77/bash_sudo_funtion/main/uninstall.sh | bash
+```
+
+### Manual
+
+```bash
+bash uninstall.sh
+```
+
+Then reload your shell:
+
 ```bash
 source ~/.bashrc
 ```
 
-### Manual Uninstallation
+### Manual uninstallation (fallback)
 
-If you prefer to uninstall manually or if the script fails:
-1. Open your `~/.bashrc` file with a text editor (e.g., `nano ~/.bashrc`).
-2. Look for the block of text starting with `# BEGIN AUTOSUDO - DO NOT EDIT THIS LINE` and ending with `# END AUTOSUDO - DO NOT EDIT THIS LINE`.
-3. Delete this entire block, including the begin and end marker lines.
-4. Save the file.
-5. Source your `~/.bashrc` or open a new terminal.
+Open `~/.bashrc` in any editor and delete the block between:
 
-If you have a backup at `~/.bashrc.autosudo.bak`, you can also restore it using:
+```
+# BEGIN AUTOSUDO - DO NOT EDIT THIS BLOCK
+```
+
+and:
+
+```
+# END AUTOSUDO - DO NOT EDIT THIS BLOCK
+```
+
+including both marker lines. To restore the backup created at install time:
+
 ```bash
 cp ~/.bashrc.autosudo.bak ~/.bashrc
 source ~/.bashrc
 ```
+
+---
+
+## Contributing
+
+Contributions, bug reports, and feature requests are welcome.
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/my-improvement`
+3. Commit your changes: `git commit -m "feat: describe change"`
+4. Push and open a Pull Request.
+
+Please run [ShellCheck](https://www.shellcheck.net/) on any modified scripts before submitting.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).  
+Copyright (c) 2024 insanerask77.
